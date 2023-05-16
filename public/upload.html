@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Reciever</title>
+</head>
+
+<body>
+    <form id="postUpload" enctype="multipart/form-data">
+        
+        <label for="token">token</label>
+        <input id="token" name="authorization" type="text" />
+
+        <label for="post">post</label>
+        <input id="post" type="text" name="title"/>
+        
+        <label for="file" class="custom-uploader">Upload Your File</label>
+        <input id="file" type="file" name="file"
+            accept="image/jpeg,image/gif,image/png,image/x-eps">
+
+        <button type="submit" name="submit" class="btn btn-success">
+            Upload File
+        </button>
+
+    </form>
+    <script>
+        // your form
+        var form = document.getElementById("postUpload");
+
+        // attach event listener
+        form.addEventListener("submit", upload, true);
+        let data        
+        function upload(e) {
+            e.preventDefault()
+            const form = new FormData(e.target);
+            data = Object.fromEntries(form.entries());
+            console.log(data)
+            return fetch('/v1/posts', {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    Authorization: `Bearer ${data["authorization"]}`,
+                    Accept: "application/json",
+                    // "Content-type": "multipart/form-data; boundary=post",
+                },
+                body: form // body data type must match "Content-Type" header
+            })
+            .then(args => console.log(args))
+            .catch(args => console.error(args))
+        }
+    </script>
+</body>
+</html>

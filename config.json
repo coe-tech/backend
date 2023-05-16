@@ -1,0 +1,38 @@
+{
+  "$schema": "./node_modules/rascal/lib/config/schema.json",
+  "vhosts": {
+    "/": {      
+      "publicationChannelPools": {
+        "confirmPool": {
+          "autostart": true
+        }
+      },
+      "connection": {
+        "url": "amqp://guest:guest@localhost:5672",
+        "options": {
+          "heartbeat": 10
+        },
+        "socketOptions": {
+          "timeout": 1000
+        }
+      },
+      "exchanges": ["post_ex"],
+      "queues": ["post_queue"],
+      "bindings": ["post_ex[p] -> post_queue"],
+      "publications": {
+        "post_pub": {
+          "exchange": "post_ex",
+          "routingKey": "p",
+          "options": {
+            "persistent": false
+          }
+        }
+      },
+      "subscriptions": {
+        "post_sub": {
+          "queue": "post_queue"
+        }
+      }
+    }
+  }
+}

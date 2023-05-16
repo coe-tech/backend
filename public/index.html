@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <title>Reciever</title>
+</head>
+
+<body>
+    <h1>Your messages are here</h1>
+    <h2 id="msgBox"></h2>
+    <script>
+        const msgBox = document.getElementById("msgBox")
+        const token = prompt()
+        const socket = io("/v1", { auth: { token } })
+
+        socket.on("connect", () => {
+            console.log(socket)
+            msgBox.innerHTML = (`connected as ${socket.id}` + "<br />")
+        });
+        socket.on("connect_profile", (profile) => {
+            socket.profile = profile
+            msgBox.innerHTML += (`connected ${socket.profile.name}` + "<br />")
+        });
+
+        socket.on("disconnect", () => {
+            msgBox.innerHTML = `status socket connected: ${socket.connected}`
+        });
+            socket.on("post", (data) => {
+                msgBox.innerHTML += ("post: " + JSON.stringify(data) + "<br />")
+            })
+            socket.on("post-like", (data) => {
+                msgBox.innerHTML += ("post-like: " + JSON.stringify(data) + "<br />")
+            })
+            socket.on("comment", (data) => {
+                msgBox.innerHTML += ("comment: " + JSON.stringify(data) + "<br />")
+            })
+            socket.on("comment-like", (data) => {
+                msgBox.innerHTML += ("comment-like: " + JSON.stringify(data) + "<br />")
+            })
+        socket.on('connect_error', (err) => {
+            alert(err)
+        })
+
+        // socket.emit("user-connected", token)
+        console.log(socket)
+    </script>
+
+</body>
+
+</html>
