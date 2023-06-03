@@ -12,8 +12,12 @@
 
 const mongoose = require('mongoose')
 const connect = mongoose.connect(
-    `${(process.env.MONGO_URL || 'mongodb://localhost:27017/mydb')}_${process.env.NODE_ENV || 'development'}`
-)
+  `${(process.env.MONGO_URL || 'mongodb://localhost:27017/mydb')}`, {
+  useNewUrlParser: true,
+  dbName: 'mydb',
+});
+console.log(`Successfully connected to database.`);
+
 exports.Post = require('./post.js')
 exports.Comment = require('./comment.js')
 exports.Profile = require('./profile.js')
