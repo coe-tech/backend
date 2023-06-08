@@ -34,6 +34,10 @@ const postSchema = new Schema({
     type: Boolean,
     default: false
   },
+  imageUrl: {
+    type: String,
+    default: ''
+  },
   createdAt: {
     type: Date,
     default: Date.now
